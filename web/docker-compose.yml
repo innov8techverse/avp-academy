@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:3000/api
+      - CHOKIDAR_USEPOLLING=true  # Enable polling for file changes
+      - WATCHPACK_POLLING=true    # Alternative polling option
+    volumes:
+      - .:/app
+      - /app/node_modules  # Prevent node_modules from being overwritten
+    networks:
+      - avp-network
+    stdin_open: true
+    tty: true
+
+networks:
+  avp-network:
+    external: true
+    name: avp-network
